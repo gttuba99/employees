@@ -14,8 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.filter.GenericFilterBean;
 
 import nz.co.hamptonsoftware.employee.security.CustomBasicAuthenticationEntryPoint;
 import nz.co.hamptonsoftware.employee.security.CustomFilter;

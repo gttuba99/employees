@@ -42,7 +42,8 @@ public class AppInitializer implements WebApplicationInitializer {
         return context;
     }
     
-    private void loadDataFromFile() throws IOException, ParseException {
+    @SuppressWarnings("unused")
+	private void loadDataFromFile() throws IOException, ParseException {
     	Reader reader = Files.newBufferedReader(Paths.get("jdbc/test-data.csv"));
         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
         for (CSVRecord csvRecord : csvParser) {
