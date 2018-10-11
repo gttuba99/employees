@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+	<insertFromJNDI env-entry-name="java:comp/env/mode" as="mode" />
+
+	<if condition='isDefined("mode")'>
+		<then>
+			<if condition='"DEV".equals(property("mode"))'>
+				<then>
+				
+					<!-- DEV/LOCAL CONFIG START -->
+					
+					<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+						<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+							<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+							</pattern>
+						</encoder>
+					</appender>
+
+					<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+						<file>/temp/pandoraservices-dev.log</file>
+						<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+							<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+							</pattern>
+						</encoder>
+					</appender>
+
+					<appender name="SMTP" class="ch.qos.logback.classic.net.SMTPAppender">
+					    <evaluator class="ch.qos.logback.classic.boolex.JaninoEventEvaluator">
+					        <expression>return level >= WARN;</expression>
+					    </evaluator>
+
+						<asynchronousSending>false</asynchronousSending>
+
+						<smtpHost>mailsrv.trimble.com</smtpHost>
+						<to>justin_betts@trimble.com</to>
+						<from>no_reply@trimble.com</from>
+						<subject>LOCAL/DEV [PandoraServices]:%logger{20} - %m</subject>
+						<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+						<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+							<bufferSize>5</bufferSize>
+						</cyclicBufferTracker>
+					</appender>
+
+					<logger name="nz.co.trimble.pandoraservices" level="TRACE"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+						<appender-ref ref="SMTP" />
+					</logger>
+					
+					<logger name="org.springframework" level="INFO"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+					</logger>
+					
+					<logger name="org.springframework.web" level="TRACE"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+					</logger>
+					
+					<logger name="org.springframework.security" level="TRACE"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+					</logger>
+
+					<root level="info">
+						<appender-ref ref="STDOUT" />
+						<appender-ref ref="SMTP" />
+					</root>
+					
+					<!-- DEV/LOCAL CONFIG END -->
+					
+				</then>
+			</if>
+			<if condition='"TEST".equals(property("mode"))'>
+				<then>
+				
+					<!-- TEST CONFIG START -->
+					
+					<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+						<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+							<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+							</pattern>
+						</encoder>
+					</appender>
+
+					<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+						<file>/temp/pandoraservices-test.log</file>
+						<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+							<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+							</pattern>
+						</encoder>
+					</appender>
+
+					<appender name="SMTP" class="ch.qos.logback.classic.net.SMTPAppender">
+					    <evaluator class="ch.qos.logback.classic.boolex.JaninoEventEvaluator">
+					        <expression>return level >= WARN;</expression>
+					    </evaluator>
+
+						<asynchronousSending>false</asynchronousSending>
+
+						<smtpHost>mailsrv.trimble.com</smtpHost>
+						<to>justin_betts@trimble.com</to>
+						<from>no_reply@trimble.com</from>
+						<subject>TEST [PandoraServices]:%logger{20} - %m</subject>
+						<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+						<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+							<bufferSize>5</bufferSize>
+						</cyclicBufferTracker>
+					</appender>
+					
+										
+					<logger name="org.springframework" level="INFO"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+					</logger>
+					
+					<logger name="org.springframework.web" level="TRACE"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+					</logger>
+					
+					<logger name="org.springframework.security" level="INFO"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+					</logger>
+
+					<logger name="nz.co.trimble.pandoraservices" level="TRACE"
+						additivity="false">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+						<appender-ref ref="SMTP" />
+					</logger>
+
+					<root level="info">
+						<appender-ref ref="FILE" />
+						<appender-ref ref="STDOUT" />
+						<appender-ref ref="SMTP" />
+					</root>
+				</then>
+				<!-- TEST CONFIG END -->
+				
+			</if>
+		</then>
+		<else> 
+		
+			<!-- PRODUCTION CONFIG START -->
+			
+			<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+				<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+					</pattern>
+				</encoder>
+
+				<filter class="ch.qos.logback.classic.filter.LevelFilter">
+					<level>WARN</level>
+					<onMatch>ACCEPT</onMatch>
+					<onMismatch>DENY</onMismatch>
+				</filter>
+			</appender>
+
+			<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+				<file>/temp/pandoraservices-prod.log</file>
+				<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+					</pattern>
+				</encoder>
+			</appender>
+			
+			<appender name="SMTP" class="ch.qos.logback.classic.net.SMTPAppender">
+			    <evaluator class="ch.qos.logback.classic.boolex.JaninoEventEvaluator">
+			        <expression>return level >= WARN;</expression>
+			    </evaluator>
+
+				<asynchronousSending>false</asynchronousSending>
+
+				<smtpHost>mailsrv.trimble.com</smtpHost>
+				<to>justin_betts@trimble.com</to>
+				<from>no_reply@trimble.com</from>
+				<subject>PROD [PandoraServices]:%logger{20} - %m</subject>
+				<layout class="ch.qos.logback.classic.html.HTMLLayout" />
+				<cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+					<bufferSize>10</bufferSize>
+				</cyclicBufferTracker>
+			</appender>
+
+			<logger name="nz.co.trimble.pandoraservices" level="TRACE"
+				additivity="false">
+				<appender-ref ref="FILE" />
+				<appender-ref ref="STDOUT" />
+				<appender-ref ref="SMTP" />
+			</logger>
+
+			<root level="info">
+				<appender-ref ref="FILE" />
+				<appender-ref ref="STDOUT" />
+				<appender-ref ref="SMTP" />
+			</root>
+			
+			<!-- PRODUCTION CONFIG END -->
+			
+		</else>
+	</if>
+
+</configuration>
