@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>nz.co.hamptonsoftware</groupId>
-  <artifactId>employee-services</artifactId>
+  <artifactId>EmployeeService</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<properties>
-		<m2eclipse.wtp.contextRoot>EmployeeServices</m2eclipse.wtp.contextRoot>
+		<m2eclipse.wtp.contextRoot>EmployeeService</m2eclipse.wtp.contextRoot>
 		<!-- Generic properties -->
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,6 +44,11 @@
 						</resource>
 					</webResources>
 				</configuration>
+			</plugin>
+			<plugin>
+			  <groupId>org.apache.tomcat.maven</groupId>
+			  <artifactId>tomcat7-maven-plugin</artifactId>
+			  <version>2.2</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -140,6 +145,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<!-- Force 3.0.1 as 3.1 is not compatible with Tomcat -->
 			<version>3.0.1</version><!--$NO-MVN-MAN-VER$-->
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.mail</groupId>
