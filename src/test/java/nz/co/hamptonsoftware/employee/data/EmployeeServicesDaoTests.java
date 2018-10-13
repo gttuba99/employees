@@ -18,6 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -43,12 +46,16 @@ public class EmployeeServicesDaoTests extends AbstractTransactionalJUnit4SpringC
 	
 	@Before
 	public void setUp() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/employees");
-        dataSource.setUsername("guest_user");
-        dataSource.setPassword("guest_password");
-		dao = new EmployeeJdbcDaoImpl(dataSource);
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+//        dataSource.setUrl("jdbc:mysql://localhost:3306/employees");
+//        dataSource.setUsername("guest_user");
+//        dataSource.setPassword("guest_password");
+        EmbeddedDatabase dataSource = new EmbeddedDatabaseBuilder()
+	            .setType(EmbeddedDatabaseType.HSQL)
+	            .addScript("classpath:jdbc/schema.sql")
+	            .addScript("classpath:jdbc/test-data.sql").build();
+        dao = new EmployeeJdbcDaoImpl(dataSource);
 	}
 
 	@After
@@ -66,8 +73,8 @@ public class EmployeeServicesDaoTests extends AbstractTransactionalJUnit4SpringC
 		final String MIDDLE_INITIAL = "P";
 		final String LAST_NAME = "Peterson";
 		final String DATE_OF_BIRTH = "1983-03-03";
-		final String DATE_OF_EMPLOYMENT = "2018-10-09";
-		Employee emp = dao.getEmployeeById(3);
+		final String DATE_OF_EMPLOYMENT = "2018-10-10";
+		Employee emp = dao.getEmployeeById(2);
 
 		EmployeeDisplay ed = new EmployeeDisplay(emp);
 		assertEquals(FIRST_NAME, ed.getFirstName());
@@ -104,8 +111,9 @@ public class EmployeeServicesDaoTests extends AbstractTransactionalJUnit4SpringC
 		final String MIDDLE_INITIAL = "F";
 		final String LAST_NAME = "Furgason";
 		final String DATE_OF_BIRTH = "1978-12-12";
+		final String DATE_OF_EMPLOYMENT = "2018-10-10";
 		Employee employee = new Employee(new Integer(0), FIRST_NAME, MIDDLE_INITIAL, LAST_NAME, 
-				new SimpleDateFormat("yyyy-MM-dd").parse(DATE_OF_BIRTH), null, new Integer(0));
+				new SimpleDateFormat("yyyy-MM-dd").parse(DATE_OF_BIRTH), new SimpleDateFormat("yyyy-MM-dd").parse(DATE_OF_EMPLOYMENT), new Integer(0));
 		Integer id = dao.createEmployee(employee);
 		
 		assertTrue(id.intValue() > 0);

@@ -9,14 +9,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "nz.co.hamptonsoftware.employee")
-@PropertySource({"classpath:/global-application.properties", "${propertiesFileName}"})
 public class AppConfig {
 
 	static final Logger LOG = LoggerFactory.getLogger(AppConfig.class);
