@@ -16,7 +16,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="nz.co.hamptonsoftware" level="TRACE"
+	<logger name="nz.co.hamptonsoftware" level="INFO"
 		additivity="false">
 		<appender-ref ref="FILE" />
 		<appender-ref ref="STDOUT" />
