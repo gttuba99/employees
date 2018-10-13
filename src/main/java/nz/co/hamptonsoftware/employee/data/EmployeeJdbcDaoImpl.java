@@ -39,7 +39,7 @@ public class EmployeeJdbcDaoImpl extends NamedParameterJdbcDaoSupport implements
 		List<Employee> employeeList = getNamedParameterJdbcTemplate().query(selectString, namedParameters, new BeanPropertyRowMapper<Employee>(Employee.class));
 		if (employeeList == null || employeeList.size() <= 0) {
 			LOG.info("No employee found with id [{}]",id);
-			throw new EmployeeServicesInvalidDataException("No employee found with id "+id);
+			throw new EmployeeServicesInvalidDataException("No employee found with id ["+id+"]");
 		}
 		LOG.debug("Found employee [{}]",employeeList.get(0));
 		return employeeList.get(0);
@@ -95,7 +95,7 @@ public class EmployeeJdbcDaoImpl extends NamedParameterJdbcDaoSupport implements
 	public Integer createEmployee(Employee employee) throws DataAccessException {
 	    String insertString = "INSERT INTO employees "
 	    	      + "(firstName,middleInitial,lastName,dateOfBirth,dateOfEmployment) VALUES "
-	    	      + "(:firstName, :middleInitial, :lastName, :dateOfBirth, current_date()) ";
+	    	      + "(:firstName, :middleInitial, :lastName, :dateOfBirth, :dateOfEmployment) ";
 	    SqlParameterSource sqlParameters = new BeanPropertySqlParameterSource(employee);
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    getNamedParameterJdbcTemplate().update(insertString, sqlParameters, keyHolder);

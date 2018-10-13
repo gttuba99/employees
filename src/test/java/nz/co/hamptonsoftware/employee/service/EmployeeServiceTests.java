@@ -32,6 +32,7 @@ import nz.co.hamptonsoftware.employee.exception.EmployeeServicesInvalidDataExcep
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { ServiceTestAppConfig.class })
 public class EmployeeServiceTests extends EasyMockSupport {
+	//TODO: add additional pass and fail tests for remaining methods 
 
 	private EmployeeService service;
 	private EmployeeServiceDao serviceDaoMock;
@@ -102,9 +103,6 @@ public class EmployeeServiceTests extends EasyMockSupport {
 	@Test
 	public void testGetAllEmployees() throws EmployeeServicesException {
 
-		//Configure Test Data -->
-		//<-- Configure Test Data
-		
 		EasyMock.expect(serviceDaoMock.getAllActiveEmployees()).andReturn(EMPLOYEE_LIST).once();
 
 		EasyMock.replay(serviceDaoMock);
@@ -121,9 +119,6 @@ public class EmployeeServiceTests extends EasyMockSupport {
 
 	@Test
 	public void testGetEmployeeById() throws EmployeeServicesException, DataAccessException, EmployeeServicesInvalidDataException {
-		
-		//Configure Test Data -->
-		//<-- Configure Test Data
 		
 		EasyMock.expect(serviceDaoMock.getEmployeeById(ID)).andReturn(EMPLOYEE).once();
 

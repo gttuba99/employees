@@ -1,5 +1,6 @@
 package nz.co.hamptonsoftware.employee.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -54,6 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Integer createEmployee(Employee employee) throws DataAccessException {
 		LOG.debug("Create employee [{}]",employee);
+		if (employee.getDateOfEmployment() == null) employee.setDateOfEmployment(new Date());
 		return employeeServiceDao.createEmployee(employee);
 	}
 

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +58,7 @@ public class EmployeeController {
 							@ApiResponse(code = 404, message = "No employee found for id", response=RestErrorMessage.class)})
 	@ApiOperation(value = "Retrieves the employee information by a given id",
 	 			  notes = "")
-	@RequestMapping(value="/employees/{id}", method=RequestMethod.GET, produces={"application/json", "application/xml", "text/xml"})
+	@RequestMapping(value="/employee/{id}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<EmployeeDisplay> 
 			handleRetrieveEmployeeById(@PathVariable("id") Integer id) 
 							throws EmployeeServicesException, DataAccessException, EmployeeServicesInvalidDataException {
@@ -66,8 +67,8 @@ public class EmployeeController {
 		
 		Employee response = employeeService.retrieveEmployeeById(id);	
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ServletUriComponentsBuilder
-				.fromCurrentRequest().build().toUri());
+		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri());
+		headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 		
 		return new ResponseEntity<EmployeeDisplay>(new EmployeeDisplay(response), headers, HttpStatus.OK); 	
 	}
@@ -81,10 +82,9 @@ public class EmployeeController {
 							@ApiResponse(code = 404, message = "No employees found", response=RestErrorMessage.class)})
 	@ApiOperation(value = "Retrieves all active employees",
 	 			  notes = "")
-	@RequestMapping(value="/employees", method=RequestMethod.GET, produces={"application/json", "application/xml", "text/xml"})
+	@RequestMapping(value="/employees", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<List<EmployeeDisplay>> 
-			handleRetrieveUpgradeConfigurationLines() 
-												throws EmployeeServicesException {
+			handleRetrieveAllActiveEmployees() throws EmployeeServicesException {
 		
 		LOG.info("Received REST call to retrieve all active employees");
 		
@@ -92,6 +92,7 @@ public class EmployeeController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ServletUriComponentsBuilder
 				.fromCurrentRequest().build().toUri());
+		headers.add("Content-Type", "application/json; charset=utf-8");
 		
 		return new ResponseEntity<List<EmployeeDisplay>>(response, headers, HttpStatus.OK); 	
 	}
@@ -107,8 +108,8 @@ public class EmployeeController {
 	 			  notes = "")
 	@RequestMapping(value="/employee", 
 					method=RequestMethod.PUT, 
-					produces={"application/json", "application/xml", "text/xml"}, 
-					consumes={"application/json", "application/xml", "text/xml"})
+					produces={MediaType.APPLICATION_JSON_VALUE}, 
+					consumes={MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Integer>
 				handleCreateEmployee(@RequestBody Employee employee)
 												throws EmployeeServicesException {
@@ -136,8 +137,8 @@ public class EmployeeController {
 	 			  notes = "")
 	@RequestMapping(value="/employee/{id}", 
 					method=RequestMethod.PUT, 
-					produces={"application/json", "application/xml", "text/xml"}, 
-					consumes={"application/json", "application/xml", "text/xml"})
+					produces={MediaType.APPLICATION_JSON_VALUE}, 
+					consumes={MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Void>
 				handleUpdateEmployee(@PathVariable("id") Integer id, 
 													@RequestBody Employee employee)
@@ -167,8 +168,8 @@ public class EmployeeController {
 	 			  notes = "")
 	@RequestMapping(value="/employee/{id}", 
 					method=RequestMethod.DELETE, 
-					produces={"application/json", "application/xml", "text/xml"}, 
-					consumes={"application/json", "application/xml", "text/xml"})
+					produces={MediaType.APPLICATION_JSON_VALUE}, 
+					consumes={MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Void>
 				handleMarkEmployeeInactive(@PathVariable("id") Integer id)
 												throws EmployeeServicesException, 
@@ -179,8 +180,7 @@ public class EmployeeController {
 		employeeService.markEmployeeInactive(id);	
 		HttpHeaders headers = new HttpHeaders();
 		
-		headers.setLocation(ServletUriComponentsBuilder
-				.fromCurrentRequest().build().toUri());
+		headers.setLocation(ServletUriComponentsBuilder.fromCurrentRequest().build().toUri());
 		
 		return new ResponseEntity<Void>(headers, HttpStatus.ACCEPTED); 	
 	}
