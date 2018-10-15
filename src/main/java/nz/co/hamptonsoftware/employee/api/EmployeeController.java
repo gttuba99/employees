@@ -104,7 +104,7 @@ public class EmployeeController {
 	 */
 	@ApiResponses(value = {	@ApiResponse(code = 403, message = "Access Denied - Must be authenticated to use this method"),
 							@ApiResponse(code = 404, message = "Employee not found for id", response=RestErrorMessage.class)})
-	@ApiOperation(value = "Updates an employee for the given id",
+	@ApiOperation(value = "Creates a new employee",
 	 			  notes = "")
 	@RequestMapping(value="/employee", 
 					method=RequestMethod.PUT, 
@@ -164,7 +164,7 @@ public class EmployeeController {
 	 */
 	@ApiResponses(value = {	@ApiResponse(code = 403, message = "Access Denied - Must be authenticated to use this method"),
 							@ApiResponse(code = 404, message = "Employee not found for id", response=RestErrorMessage.class)})
-	@ApiOperation(value = "Updates an employee for the given id",
+	@ApiOperation(value = "Marks an existing employee as inactive",
 	 			  notes = "")
 	@RequestMapping(value="/employee/{id}", 
 					method=RequestMethod.DELETE, 
