@@ -60,6 +60,6 @@ public interface EmployeeService {
 	 */
 	@Transactional(readOnly=false)
 	@PreAuthorize("isAuthenticated()")
-	Integer createEmployee(Employee employee) throws DataAccessException;
+	Employee createEmployee(Employee employee) throws DataAccessException;
 
 }

@@ -53,11 +53,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Integer createEmployee(Employee employee) throws DataAccessException {
+	public Employee createEmployee(Employee employee) throws DataAccessException {
 		LOG.debug("Create employee [{}]",employee);
 		if (employee.getDateOfEmployment() == null) employee.setDateOfEmployment(new Date());
 		employee.setStatus(Employee.STATUS_ACTIVE);
-		return employeeServiceDao.createEmployee(employee);
+		Integer id = employeeServiceDao.createEmployee(employee);
+		return employee.setId(id.intValue());
 	}
 
 }

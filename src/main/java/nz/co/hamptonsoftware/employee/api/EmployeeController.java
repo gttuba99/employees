@@ -99,7 +99,7 @@ public class EmployeeController {
 	
 	/**
 	 * Creates a new employee
-	 * @return id of the newly created employee
+	 * @return complete record of the newly created employee
 	 * @throws EmployeeServicesConfigurationMissingException
 	 */
 	@ApiResponses(value = {	@ApiResponse(code = 403, message = "Access Denied - Must be authenticated to use this method"),
@@ -110,19 +110,19 @@ public class EmployeeController {
 					method=RequestMethod.PUT, 
 					produces={MediaType.APPLICATION_JSON_VALUE}, 
 					consumes={MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<Integer>
+	public ResponseEntity<Employee>
 				handleCreateEmployee(@RequestBody Employee employee)
 												throws EmployeeServicesException {
 		 
 		LOG.info("Received REST call to create employee");
 
-		Integer response = employeeService.createEmployee(employee);	
+		Employee response = employeeService.createEmployee(employee);	
 		HttpHeaders headers = new HttpHeaders();
 		
 		headers.setLocation(ServletUriComponentsBuilder
 				.fromCurrentRequest().build().toUri());
 		
-		return new ResponseEntity<Integer>(response, headers, HttpStatus.ACCEPTED); 	
+		return new ResponseEntity<Employee>(response, headers, HttpStatus.ACCEPTED); 	
 	}
 	
 	/**
