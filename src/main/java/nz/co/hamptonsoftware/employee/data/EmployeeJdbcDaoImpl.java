@@ -34,7 +34,7 @@ public class EmployeeJdbcDaoImpl extends NamedParameterJdbcDaoSupport implements
 
 	@Override
 	public Employee getEmployeeById(Integer id) throws DataAccessException, EmployeeServicesInvalidDataException {
-		String selectString = "SELECT * FROM employees WHERE id = :id";
+		String selectString = "SELECT * FROM employees WHERE id = :id and status = " + Employee.STATUS_ACTIVE;
 		SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
 		List<Employee> employeeList = getNamedParameterJdbcTemplate().query(selectString, namedParameters, new BeanPropertyRowMapper<Employee>(Employee.class));
 		if (employeeList == null || employeeList.size() <= 0) {
