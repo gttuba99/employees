@@ -94,8 +94,8 @@ public class EmployeeJdbcDaoImpl extends NamedParameterJdbcDaoSupport implements
 	@Override
 	public Integer createEmployee(Employee employee) throws DataAccessException {
 	    String insertString = "INSERT INTO employees "
-	    	      + "(firstName,middleInitial,lastName,dateOfBirth,dateOfEmployment) VALUES "
-	    	      + "(:firstName, :middleInitial, :lastName, :dateOfBirth, :dateOfEmployment) ";
+	    	      + "(firstName,middleInitial,lastName,dateOfBirth,dateOfEmployment,status) VALUES "
+	    	      + "(:firstName, :middleInitial, :lastName, :dateOfBirth, :dateOfEmployment, :status) ";
 	    SqlParameterSource sqlParameters = new BeanPropertySqlParameterSource(employee);
 	    KeyHolder keyHolder = new GeneratedKeyHolder();
 	    getNamedParameterJdbcTemplate().update(insertString, sqlParameters, keyHolder);
